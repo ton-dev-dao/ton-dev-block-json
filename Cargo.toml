@@ -1,0 +1,24 @@
+[package]
+build = 'common/build/build.rs'
+edition = '2021'
+name = 'ton_dev_block_json'
+version = '0.9.37'
+
+[dependencies]
+anyhow = '1.0'
+hex = '0.4'
+lazy_static = '1.4.0'
+log = '^0.4'
+metrics = '0.21.0'
+num = '0.4'
+num-traits = '0.2'
+serde = '1.0'
+serde_derive = '1.0'
+serde_json = { features = [ 'preserve_order' ], version = '1.0' }
+thiserror = '1.0'
+ton_dev_block = { git = 'https://github.com/ton-dev-dao/ton-dev-block.git', tag = '1.11.20' }
+ton_api = { git = 'https://github.com/ton-dev-dao/ton-dev-tl.git', package = 'ton_api', tag = '0.4.29' }
+
+[dev-dependencies]
+pretty_assertions = '1.4'
+
