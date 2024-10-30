@@ -16,12 +16,12 @@
 
 use super::*;
 use crate::{serialize_config, SerializationMode, serialize_config_param};
-use ever_block::{
+use ton_dev_block::{
     ConfigParam3, ConfigParam32, ConfigParam33, ConfigParam35, ConfigParam36, ConfigParam37,
     ConfigParam39, ConfigParam4, ConfigParam6, ConfigVotingSetup, DelectorParams, Number16,
     SigPubKey, VarUInteger32, ConfigCopyleft, SmftParams,
 };
-use ever_block::{BuilderData, IBitstring};
+use ton_dev_block::{BuilderData, IBitstring};
 
 include!("./test_common.rs");
 
@@ -541,7 +541,7 @@ fn test_parse_config_params() {
 #[test]
 fn test_parse_block_proof() {
     let boc = include_bytes!("data/block_proof");
-    let ethalon_proof = ever_block::BlockProof::construct_from_bytes(boc).unwrap();
+    let ethalon_proof = ton_dev_block::BlockProof::construct_from_bytes(boc).unwrap();
     let json = serde_json::from_str(include_str!("data/proof-ethalon.json")).unwrap();
 
     let parsed_proof = parse_block_proof(&json, ethalon_proof.proof_for.file_hash.clone()).unwrap();

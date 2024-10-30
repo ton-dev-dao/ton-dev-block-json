@@ -20,7 +20,7 @@ use ton_api::{
     ton::ton_node::{rempmessagestatus, RempMessageLevel, RempMessageStatus, RempReceipt},
     IntoBoxed
 };
-use ever_block::*;
+use ton_dev_block::*;
 
 #[allow(dead_code)]
 trait ParseJson {
@@ -802,7 +802,7 @@ impl StateParser {
         self.extra.config.set_config(ConfigParamEnum::ConfigParam40(ConfigParam40 {slashing_config}))?;
 
         self.parse_parameter(config, 42, |p42| {
-            let mut copyleft_config = ever_block::ConfigCopyleft { 
+            let mut copyleft_config = ton_dev_block::ConfigCopyleft {
                 copyleft_reward_threshold: p42.get_grams("threshold")?,
                 ..Default::default() 
             };
@@ -1019,14 +1019,14 @@ pub fn parse_state_unchecked(map: &Map<String, Value>) -> Result<ShardStateUnspl
 fn parse_block_id_ext(map_path: &PathMap, mc: bool) -> Result<BlockIdExt> {
     if mc {
         Ok(BlockIdExt::with_params(
-            ever_block::ShardIdent::with_tagged_prefix(MASTERCHAIN_ID, SHARD_FULL)?,
+            ton_dev_block::ShardIdent::with_tagged_prefix(MASTERCHAIN_ID, SHARD_FULL)?,
             map_path.get_num("mc_block_seqno")? as u32,
             map_path.get_uint256("mc_block_id")?,
             map_path.get_uint256("mc_block_file_hash")?,
         ))
     } else {
         Ok(BlockIdExt::with_params(
-            ever_block::ShardIdent::with_tagged_prefix(
+            ton_dev_block::ShardIdent::with_tagged_prefix(
                 map_path.get_num("wc")? as i32,
                 u64::from_str_radix(map_path.get_str("shard")?, 16)?
             )?,
@@ -1152,19 +1152,19 @@ pub fn parse_remp_status(map: &Map<String, Value>)
 
 pub fn parse_block_proof(
     map: &Map<String, Value>, block_file_hash: UInt256
-) -> Result<ever_block::BlockProof> {
+) -> Result<ton_dev_block::BlockProof> {
 
     let map_path = PathMap::new(map);
 
-    let root = ever_block::read_single_root_boc(base64_decode(map_path.get_str("proof")?)?)?;
+    let root = ton_dev_block::read_single_root_boc(base64_decode(map_path.get_str("proof")?)?)?;
 
-    let merkle_proof = ever_block::MerkleProof::construct_from_cell(root.clone())?;
+    let merkle_proof = ton_dev_block::MerkleProof::construct_from_cell(root.clone())?;
     let block_virt_root = merkle_proof.proof.virtualize(1);
-    let virt_block = ever_block::Block::construct_from_cell(block_virt_root.clone())?;
+    let virt_block = ton_dev_block::Block::construct_from_cell(block_virt_root.clone())?;
     let block_info = virt_block.read_info()?;
 
     let proof_for = BlockIdExt::with_params(
-        ever_block::ShardIdent::with_tagged_prefix(
+        ton_dev_block::ShardIdent::with_tagged_prefix(
             block_info.shard().workchain_id(),
             block_info.shard().shard_prefix_with_tag(),
         )?,
@@ -1174,20 +1174,20 @@ pub fn parse_block_proof(
     );
 
     let signatures = if let Ok(signatures) = map_path.get_vec("signatures") {
-        let mut pure_signatures = ever_block::BlockSignaturesPure::new();
+        let mut pure_signatures = ton_dev_block::BlockSignaturesPure::new();
         pure_signatures.set_weight(map_path.get_num("sig_weight")? as u64);
         for signature in signatures {
             let signature = PathMap::cont(&map_path, "signatures", signature)?;
-            pure_signatures.add_sigpair(ever_block::CryptoSignaturePair { 
+            pure_signatures.add_sigpair(ton_dev_block::CryptoSignaturePair {
                 node_id_short: signature.get_uint256("node_id")?,
-                sign: ever_block::CryptoSignature::from_r_s_str(
+                sign: ton_dev_block::CryptoSignature::from_r_s_str(
                     signature.get_str("r")?,
                     signature.get_str("s")?,
                 )?
             });
         }
-        Some(ever_block::BlockSignatures::with_params(
-            ever_block::ValidatorBaseInfo::with_params(
+        Some(ton_dev_block::BlockSignatures::with_params(
+            ton_dev_block::ValidatorBaseInfo::with_params(
                 map_path.get_num("validator_list_hash_short")? as u32,
                 map_path.get_num("catchain_seqno")? as u32,
             ),
@@ -1197,7 +1197,7 @@ pub fn parse_block_proof(
         None
     };
 
-    Ok(ever_block::BlockProof::with_params(proof_for, root, signatures))
+    Ok(ton_dev_block::BlockProof::with_params(proof_for, root, signatures))
 }
 
 #[cfg(test)]

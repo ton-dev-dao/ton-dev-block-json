@@ -1,6 +1,6 @@
 use crate::block_parser::entry::ParsedEntry;
-use ever_block::{Block, BlockIdExt, BlockProof, ShardStateUnsplit};
-use ever_block::Cell;
+use ton_dev_block::{Block, BlockIdExt, BlockProof, ShardStateUnsplit};
+use ton_dev_block::Cell;
 
 #[derive(Default)]
 pub struct ParsedBlock {

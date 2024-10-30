@@ -17,7 +17,7 @@
 use super::*;
 use crate::block_parser::{reducers::JsonFieldsReducer, MINTER_ADDRESS};
 use crate::{NoTrace, ParsedBlock};
-use ever_block::{read_single_root_boc, Block, GetRepresentationHash, InMsg, OutMsg, UInt256};
+use ton_dev_block::{read_single_root_boc, Block, GetRepresentationHash, InMsg, OutMsg, UInt256};
 use serde_json::Map;
 use std::{collections::HashMap, fs::read, path::Path};
 

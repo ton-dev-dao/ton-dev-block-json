@@ -7,11 +7,11 @@ use crate::{
 use serde_json::{Map, Value};
 use std::collections::HashMap;
 use std::time::SystemTime;
-use ever_block::{
+use ton_dev_block::{
     CommonMsgInfo, Deserializable, Message, MessageProcessingStatus, MsgAddressExt, Transaction,
     TransactionProcessingStatus,
 };
-use ever_block::{write_boc, Cell, Result, SliceData, UInt256};
+use ton_dev_block::{write_boc, Cell, Result, SliceData, UInt256};
 
 pub struct PreparedMessage {
     doc: Map<String, Value>,

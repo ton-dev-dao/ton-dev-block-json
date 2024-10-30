@@ -15,7 +15,7 @@
  */
 
 use super::*;
-use ever_block::{
+use ton_dev_block::{
     generate_test_account_by_init_code_hash, read_single_root_boc, write_boc, AccountId,
     IBitstring, ShardStateUnsplit, Transaction, TransactionProcessingStatus,
 };
@@ -1376,7 +1376,7 @@ fn test_crafted_key_block_into_json() {
     // Need to add shard with FutureSplitMerge
     let sd = ShardDescr::with_params(42, 17, 25, UInt256::from_le_bytes(&[70]), FutureSplitMerge::Split{split_utime: 0x12345678, interval: 0x87654321});
     let mut wc0 = custom.hashes().get(&0_u32).unwrap().unwrap();
-    let mut key = ever_block::BuilderData::new();
+    let mut key = ton_dev_block::BuilderData::new();
     key.append_bit_one().unwrap();
     key.append_bit_one().unwrap();
     let key = SliceData::load_builder(key).unwrap();
@@ -1716,13 +1716,13 @@ fn test_se_deserialise_remp_accepted() {
             rempmessagestatus::RempAccepted {
                 level: RempMessageLevel::TonNode_RempMasterchain,
                 block_id: BlockIdExt::with_params(
-                    ever_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
+                    ton_dev_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
                     1830539,
                     "18AFCDD25BE0989CE516504263EB356618A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap(),
                     "18AFCDD25BE0989CE516554263EB351818A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap()
                 ),
                 master_id: BlockIdExt::with_params(
-                    ever_block::ShardIdent::with_tagged_prefix(-1, 0x8000_0000_0000_0000).unwrap(),
+                    ton_dev_block::ShardIdent::with_tagged_prefix(-1, 0x8000_0000_0000_0000).unwrap(),
                     1830539,
                     "18AFCD115BE0989CE516504263EB356618A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap(),
                     "18AFC2225BE0989CE516554263EB351818A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap()
@@ -1738,7 +1738,7 @@ fn test_se_deserialise_remp_duplicate() {
         RempMessageStatus::TonNode_RempDuplicate (
             rempmessagestatus::RempDuplicate {
                 block_id: BlockIdExt::with_params(
-                    ever_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
+                    ton_dev_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
                     1830539,
                     "18AFCDD25BE0989CE516504263EB356618A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap(),
                     "18AFCDD25BE0989CE516554263EB351818A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap()
@@ -1755,7 +1755,7 @@ fn test_se_deserialise_remp_ignored() {
             rempmessagestatus::RempIgnored {
                 level: RempMessageLevel::TonNode_RempMasterchain,
                 block_id: BlockIdExt::with_params(
-                    ever_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
+                    ton_dev_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
                     1830539,
                     "18AFCDD25BE0989CE516504263EB356618A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap(),
                     "18AFCDD25BE0989CE516554263EB351818A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap()
@@ -1777,7 +1777,7 @@ fn test_se_deserialise_remp_rejected() {
             rempmessagestatus::RempRejected {
                 level: RempMessageLevel::TonNode_RempMasterchain,
                 block_id: BlockIdExt::with_params(
-                    ever_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
+                    ton_dev_block::ShardIdent::with_tagged_prefix(0, 0x3800_0000_0000_0000).unwrap(),
                     1830539,
                     "18AFCDD25BE0989CE516504263EB356618A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap(),
                     "18AFCDD25BE0989CE516554263EB351818A0FF8F6AB3689501C8E3B767EF413C".parse().unwrap()

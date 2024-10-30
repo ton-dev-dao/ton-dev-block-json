@@ -14,7 +14,7 @@
  * under the License.
  */
 
-use ever_block::*;
+use ton_dev_block::*;
 use ton_api::ton::ton_node::{RempMessageLevel, RempMessageStatus, RempReceipt};
 use num::BigInt;
 use num_traits::sign::Signed;

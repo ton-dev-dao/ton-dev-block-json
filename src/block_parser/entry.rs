@@ -1,7 +1,7 @@
 use crate::block_parser::{BlockParsingError, JsonReducer};
 use crate::EntryConfig;
 use serde_json::{Map, Value};
-use ever_block::Result;
+use ton_dev_block::Result;
 
 #[derive(Clone)]
 pub struct ParsedEntry {
